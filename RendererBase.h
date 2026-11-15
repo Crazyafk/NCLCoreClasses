@@ -31,6 +31,10 @@ namespace NCL {
 
 		void Render() {
 			//assert(HasInitialised());
+			if (!hasRunBeforeFirstFrame) { 
+				hasRunBeforeFirstFrame = true; 
+				BeforeFirstFrame(); 
+			}
 			BeginFrame();
 			RenderFrame();
 			EndFrame();
@@ -41,6 +45,7 @@ namespace NCL {
 			return false;
 		}
 
+		virtual void BeforeFirstFrame() {};
 		virtual void BeginFrame()	= 0;
 		virtual void RenderFrame()	= 0;
 		virtual void EndFrame()		= 0;
@@ -50,6 +55,7 @@ namespace NCL {
 		virtual void OnWindowDetach() {}; //Most renderers won't care about this
 
 	protected:	
+		bool hasRunBeforeFirstFrame = false;
 		Window& hostWindow;
 
 		Maths::Vector2i windowSize;
