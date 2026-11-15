@@ -224,6 +224,10 @@ namespace NCL::Rendering {
 			assetID = newID;
 		}
 
+		// Finds the average position of the mesh's vertices, and subtracts it from all of them.
+		// Returns that average.
+		Vector3 Centre();
+
 	protected:
 		Mesh();
 

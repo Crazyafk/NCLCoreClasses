@@ -158,6 +158,26 @@ void Mesh::CalculateInverseBindPose() {
 	}
 }
 
+Vector3 Mesh::Centre() {
+	Vector3 sum(0, 0, 0);
+	for (Vector3 p : positions) {
+		sum.x += p.x;
+		sum.y += p.y;
+		sum.z += p.z;
+	}
+	Vector3 average(
+		sum.x / GetVertexCount(),
+		sum.y / GetVertexCount(),
+		sum.z / GetVertexCount()
+	);
+	for (Vector3& p : positions) {
+		p.x -= average.x;
+		p.y -= average.y;
+		p.z -= average.z;
+	}
+	return average;
+}
+
 bool Mesh::ValidateMeshData() {
 	if (GetPositionData().empty()) {
 		std::cout << __FUNCTION__ << " mesh " << debugName << " does not have any vertex positions!\n";
