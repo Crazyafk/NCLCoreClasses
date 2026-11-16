@@ -35,6 +35,8 @@ namespace NCL {
 
 		virtual void UpdateCamera(float dt);
 
+		void MoveYawRelative(Vector3 v);
+
 		float GetNearPlane() const {
 			return nearPlane;
 		}
