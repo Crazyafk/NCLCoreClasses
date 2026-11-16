@@ -39,9 +39,18 @@ void Camera::UpdateCamera(float dt) {
 	position.y += activeController->GetNamedAxis("UpDown") * frameSpeed;
 }
 
-void Camera::MoveYawRelative(Vector3 v) {
+void Camera::MoveYawRelative(Vector3 v, bool moveYWithPitch) {
 	Matrix3 yawRotation = Matrix::Rotation(yaw, Vector3(0, 1, 0));
-	position += yawRotation * v;
+	Vector3 movement = yawRotation * v;
+
+	if (moveYWithPitch) {
+		float horTravelled = Maths::Vector::Length(Vector2(movement.x, movement.z));
+		float ratio = tan(Maths::DegreesToRadians(pitch));
+		float up = -(ratio * horTravelled);	// Get O from O/A. no idea why it needs to be made negative
+		movement += Vector3(0, up, 0);
+	}
+
+	position += movement;
 }
 
 /*
