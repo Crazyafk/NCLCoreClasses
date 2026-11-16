@@ -51,6 +51,16 @@ Matrix4 Camera::BuildViewMatrix() const {
 		Matrix::Translation(-position);
 };
 
+Camera& Camera::LookTowards(Vector3 target) {
+	Vector3 diff = position - target;
+	yaw = Maths::RadiansToDegrees(atan2(diff.x, diff.z));
+	
+	float xzDiff = Maths::Vector::Length(Vector2(diff.x, diff.z));
+	pitch = Maths::RadiansToDegrees(atan2(diff.y, xzDiff));
+
+	return *this;
+}
+
 Matrix4 PerspectiveCamera::BuildProjectionMatrix(float currentAspect) const {
 	return Matrix::Perspective(nearPlane, farPlane, currentAspect, fov);
 }
